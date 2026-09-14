@@ -1,0 +1,77 @@
+[project]
+name = "gus-mcp"
+version = "0.1.0"
+description = "Relevant-context retrieval for AI coding agents, over MCP and CLI"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Sudhansriram Manibalan" }]
+requires-python = ">=3.10"
+keywords = ["mcp", "code-search", "retrieval", "embeddings", "claude-code", "cursor", "codex"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development",
+    "Topic :: Text Processing :: Indexing",
+]
+dependencies = [
+    "huggingface-hub>=0.20",
+    "mcp>=2.2",
+    "model2vec>=0.6",
+    "numpy",
+    "pathspec>=0.12",
+    "pdfplumber>=0.11",
+    "tokenizers>=0.20",
+    "tree-sitter>=0.25",
+    "tree-sitter-c",
+    "tree-sitter-cpp",
+    "tree-sitter-go",
+    "tree-sitter-java",
+    "tree-sitter-javascript",
+    "tree-sitter-python",
+    "tree-sitter-ruby",
+    "tree-sitter-rust",
+    "tree-sitter-typescript",
+]
+
+[project.optional-dependencies]
+onnx = ["onnxruntime>=1.21"]  # quality model (EmbeddingGemma) on CPU
+gpu = ["onnxruntime-gpu[cuda,cudnn]>=1.21"]  # quality model on an NVIDIA GPU; pulls CUDA/cuDNN (~2 GB). Don't combine with onnx
+
+[project.urls]
+Homepage = "https://github.com/SUD747/gus"
+Repository = "https://github.com/SUD747/gus"
+Issues = "https://github.com/SUD747/gus/issues"
+
+[project.scripts]
+gus = "gus.cli:main"
+
+[dependency-groups]
+dev = ["ruff"]
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["gus"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/gus", "/tests", "/eval/run.py", "/eval/ab.py", "/eval/cases.json", "/README.md", "/LICENSE"]
+
+[tool.ruff]
+line-length = 130
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501", "E731"]  # long comment lines and small local lambdas are house style
