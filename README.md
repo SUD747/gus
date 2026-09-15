@@ -98,6 +98,22 @@ app, which aren't in these numbers.
 they give the agent the code itself. `outline` mode trims that to 1,597 tokens (−75%), but it shows what each hit
 *is* rather than its body, so it's opt-in for locating things, not the default for understanding them.
 
+### With a real agent
+
+Claude Code answered the same 33 questions twice in a fresh copy of each repo: once with Read, Grep and Glob, and
+once with those plus Gus. No one told it to use Gus; it chose to in 27 of 33 runs.
+
+| Claude Haiku, 33 questions | Correct | Tokens per task (median / mean) | Turns (median) | Cost |
+|---|--:|--:|--:|--:|
+| Without Gus | 85% | 43,414 / 63,626 | 6 | $1.28 |
+| With Gus | 88% | 39,570 / 48,099 | 5 | $0.87 |
+
+Accuracy was the same within noise (3 questions right only with Gus, 2 only without). On a typical question the
+saving is small (0.89× the tokens where both were right), and larger on hard ones where the agent would otherwise
+read through many big files: −24% tokens and −32% cost on average. Every agent turn also carries the system prompt,
+tool definitions and conversation so far, which Gus doesn't shrink, so the saving is smaller than the −68% above.
+These are early numbers, from one run per question on a small model. [How it's run](https://github.com/SUD747/gus/blob/main/CONTRIBUTING.md#agent-ab-benchmark).
+
 ## Install
 
 Requires Python 3.10+. The package is `gus-mcp`; the command it installs is `gus`.
